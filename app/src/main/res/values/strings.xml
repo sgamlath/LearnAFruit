@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Learn A Fruit</string>
+    <string name="learn">Learn</string>
+    <string name="quiz">Quiz</string>
+</resources>
