@@ -5,6 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+/**
+ * MainActivity
+ *
+ * The main activity of the app
+ */
 public class MainActivity extends AppCompatActivity {
 
     @Override

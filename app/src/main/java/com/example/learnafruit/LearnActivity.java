@@ -5,6 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+/**
+ * LearnActivity
+ *
+ * The activity displaying list of fruits
+ */
 public class LearnActivity extends AppCompatActivity {
 
     @Override
@@ -18,3 +23,4 @@ public class LearnActivity extends AppCompatActivity {
         startActivity(fruitIntent);
     }
 }
+

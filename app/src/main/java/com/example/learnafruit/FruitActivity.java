@@ -6,6 +6,11 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+/**
+ * FruitActivity
+ *
+ * The activity displaying each fruit
+ */
 public class FruitActivity extends AppCompatActivity {
 
     @Override
