@@ -1,6 +1,8 @@
 package com.example.learnafruit;
 
-public class FruitModel {
+import java.io.Serializable;
+
+public class FruitModel implements Serializable {
     private int id;
     private String name , img_path, description;
 

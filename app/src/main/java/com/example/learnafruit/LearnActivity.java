@@ -1,3 +1,5 @@
+//https://demonuts.com/retrofit-android-get-json/
+
 package com.example.learnafruit;
 
 import android.content.Intent;
@@ -32,6 +34,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
  * The activity displaying list of fruits
  */
 public class LearnActivity extends AppCompatActivity {
+    public ArrayList<FruitModel> fruitModels;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +65,9 @@ public class LearnActivity extends AppCompatActivity {
                         Log.i("TEST", response.body().toString());
                         String jsonResponse = response.body().toString();
 
+                        fruitModels = jsonToModel(jsonResponse);
 
-                        modelToListView(jsonToModel(jsonResponse));
+                        modelToListView(fruitModels);
 
                     } else {
                         Log.i("TEST", "Returned empty response");
@@ -79,17 +83,10 @@ public class LearnActivity extends AppCompatActivity {
     }
 
     private void modelToListView(ArrayList<FruitModel> modelList) {
-
-        ArrayList<String> listItems = new ArrayList<>();
-
-        for (FruitModel fruitModel : modelList) {
-            listItems.add(Integer.toString(fruitModel.getId()) + "    " + fruitModel.getName());
-        }
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.score_item, listItems);
+        CustomAdaptor customAdaptor = new CustomAdaptor(this, modelList);
 
         ListView fruitListView = findViewById(R.id.fruitListView);
-        fruitListView.setAdapter(adapter);
+        fruitListView.setAdapter(customAdaptor);
     }
 
     private ArrayList<FruitModel> jsonToModel(String jsonresponse) {
@@ -121,6 +118,8 @@ public class LearnActivity extends AppCompatActivity {
 
     public void loadFruit(View view) {
         Intent fruitIntent = new Intent(this, FruitActivity.class);
+        fruitIntent.putExtra("fruit", fruitModels.get(Integer.parseInt(view.getTag().toString())-1));
+        Log.i("TEST", "Hi bae: " + view.getTag());
         startActivity(fruitIntent);
     }
 
