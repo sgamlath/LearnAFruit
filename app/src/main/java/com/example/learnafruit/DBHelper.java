@@ -56,7 +56,7 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     public List<ScoreModel> readAllScores() {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cur = db.rawQuery("SELECT * FROM scores", null);
+        Cursor cur = db.rawQuery("SELECT * FROM scores ORDER BY id DESC", null);
         cur.moveToNext();
         List<ScoreModel> data = new ArrayList<>();
         while (!cur.isAfterLast()) {
