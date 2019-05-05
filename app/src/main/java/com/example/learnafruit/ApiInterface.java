@@ -9,7 +9,10 @@ public interface ApiInterface {
 
     String JSONURL = "https://damp-sea-11322.herokuapp.com/question/";
 
-    @GET("questionlist")
-    Call<String> getString();
+    @GET("fruitlist")
+    Call<String> getFruitList();
+
+    @GET("getquestionlist")
+    Call<String> getQuestionList();
 
 }

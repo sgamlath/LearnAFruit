@@ -7,19 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -53,7 +46,7 @@ public class LearnActivity extends AppCompatActivity {
 
         ApiInterface api = retrofit.create((ApiInterface.class));
 
-        Call<String> call = api.getString();
+        Call<String> call = api.getFruitList();
 
         call.enqueue(new Callback<String>() {
             @Override
@@ -95,10 +88,10 @@ public class LearnActivity extends AppCompatActivity {
             JSONObject jsonObject = new JSONObject(jsonresponse);
 
             if(jsonObject.optString("isSuccess").equals("true")){
-                JSONArray jsonQuestionList = jsonObject.getJSONArray("questionList");
-                for (int i=0;i<jsonQuestionList.length(); i++) {
+                JSONArray jsonFruitList = jsonObject.getJSONArray("fruitList");
+                for (int i=0;i<jsonFruitList.length(); i++) {
                     FruitModel fruit = new FruitModel();
-                    JSONObject fruitObject = jsonQuestionList.getJSONObject(i);
+                    JSONObject fruitObject = jsonFruitList.getJSONObject(i);
                     fruit.setId(fruitObject.getInt("id"));
                     fruit.setName(fruitObject.getString("name"));
                     fruit.setImg_path(fruitObject.getString("img_path"));
@@ -107,8 +100,6 @@ public class LearnActivity extends AppCompatActivity {
                     fruitModels.add(fruit);
                 }
             }
-
-
         } catch (JSONException e) {
             e.printStackTrace();
         }

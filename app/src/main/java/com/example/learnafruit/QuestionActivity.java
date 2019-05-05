@@ -6,10 +6,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Random;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
  * QuestionActivity
@@ -18,6 +34,7 @@ import java.util.Random;
  */
 public class QuestionActivity extends AppCompatActivity {
 
+    public ArrayList<QuestionModel> questionModels;
     int round = 1;
     int score = 0;
 
@@ -32,18 +49,108 @@ public class QuestionActivity extends AppCompatActivity {
         txtViewRound.setText(Integer.toString(round));
         txtViewScore.setText(Integer.toString(score));
 
+        getData();
+
+    }
+
+    private void getData() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ApiInterface.JSONURL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .build();
+
+        ApiInterface api = retrofit.create((ApiInterface.class));
+
+        Call<String> call = api.getQuestionList();
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                Log.i("TEST", response.body().toString());
+
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+//                        Log.i("TEST", response.body().toString());
+                        String jsonResponse = response.body().toString();
+
+                        questionModels = jsonToModel(jsonResponse);
+
+                        displayQuestion(0);
+
+                    } else {
+                        Log.i("TEST", "Returned empty response");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void displayQuestion(int qIndex) {
+        ImageView imageView = findViewById(R.id.imageView);
+        Picasso.get()
+                .load("https://damp-sea-11322.herokuapp.com"+questionModels.get(qIndex).getImg())
+                .placeholder(R.drawable.loading)
+                .error(R.drawable.broken)
+                .fit()
+                .into(imageView);
+
+        Button ans1 = findViewById(R.id.ans1);
+        Button ans2 = findViewById(R.id.ans2);
+        Button ans3 = findViewById(R.id.ans3);
+        Button ans4 = findViewById(R.id.ans4);
+
+        ans1.setText(questionModels.get(qIndex).getAns1());
+        ans2.setText(questionModels.get(qIndex).getAns2());
+        ans3.setText(questionModels.get(qIndex).getAns3());
+        ans4.setText(questionModels.get(qIndex).getAns4());
+    }
+
+    private ArrayList<QuestionModel> jsonToModel(String jsonresponse) {
+        ArrayList<QuestionModel> questionModels = new ArrayList<>();
+        try {
+            JSONObject jsonObject = new JSONObject(jsonresponse);
+
+            if(jsonObject.optString("isSuccess").equals("true")){
+                JSONArray jsonQuestionList = jsonObject.getJSONArray("questionList");
+                for (int i=0;i<jsonQuestionList.length(); i++) {
+                    QuestionModel question = new QuestionModel();
+                    JSONObject questionObject = jsonQuestionList.getJSONObject(i);
+                    question.setCorrectAns(questionObject.getInt("correctAns"));
+                    question.setAns1(questionObject.getString("ans1"));
+                    question.setAns2(questionObject.getString("ans2"));
+                    question.setAns3(questionObject.getString("ans3"));
+                    question.setAns4(questionObject.getString("ans4"));
+                    question.setImg(questionObject.getString("img"));
+
+                    questionModels.add(question);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return questionModels;
     }
 
     public void ansClick(View view) {
 
 
         //test code start
-        int randChoise = new Random().nextInt(4)+1;
+//        int randChoise = new Random().nextInt(4)+1;
+
+        int correctAns = questionModels.get(round-1).getCorrectAns();
+
         //TODO: Get the correct choice
 
         int input = Integer.parseInt(view.getTag().toString());
-        if (input == randChoise) {
+        if (input == correctAns) {
             score++;
+            TextView txtViewScore = (TextView) findViewById(R.id.txtScore);
+            txtViewScore.setText(Integer.toString(score));
         }
         round++;
 
@@ -73,12 +180,10 @@ public class QuestionActivity extends AppCompatActivity {
         }else {
 
             TextView txtViewRound = (TextView) findViewById(R.id.txtRound);
-            TextView txtViewScore = (TextView) findViewById(R.id.txtScore);
-
             txtViewRound.setText(Integer.toString(round));
-            txtViewScore.setText(Integer.toString(score));
 
             //TODO: Update image and 4 choices
+            displayQuestion(round-1);
         }
 
 
