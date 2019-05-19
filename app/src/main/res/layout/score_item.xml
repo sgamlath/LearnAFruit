@@ -13,4 +13,7 @@
     android:paddingBottom="8dp"
     android:text="John Doe         10"
     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-    android:textSize="30sp" />
+    android:textColor="@android:color/black"
+    android:textSize="30sp"
+    android:textStyle="bold"
+    android:typeface="sans" />

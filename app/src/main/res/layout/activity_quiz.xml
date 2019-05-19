@@ -7,6 +7,7 @@
     tools:context=".QuizActivity"
     android:focusable="true"
     android:focusableInTouchMode="true"
+    android:background="@drawable/game_background"
     android:clickable="true">
 
     <TextView
@@ -38,22 +39,30 @@
 
     <Button
         android:id="@+id/btnStart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
         android:layout_marginBottom="20dp"
+        android:background="@drawable/rounded_button"
         android:onClick="loadQuestion"
         android:text="Start"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:typeface="sans"
         app:layout_constraintBottom_toTopOf="@+id/btnScorecard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnScorecard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
         android:layout_marginBottom="200dp"
+        android:background="@drawable/rounded_button"
         android:onClick="loadScorecard"
         android:text="Scorecard"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:typeface="sans"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
