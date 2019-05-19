@@ -1,14 +1,12 @@
 package com.example.learnafruit;
 
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,7 +17,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,6 +35,9 @@ public class QuestionActivity extends AppCompatActivity {
     int round = 1;
     int score = 0;
 
+    /**
+     * Overridden method to initialize Question activity with data
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +53,9 @@ public class QuestionActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Method to get question data from the server
+     */
     private void getData() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(ApiInterface.JSONURL)
@@ -66,19 +69,12 @@ public class QuestionActivity extends AppCompatActivity {
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                Log.i("TEST", response.body().toString());
-
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-//                        Log.i("TEST", response.body().toString());
                         String jsonResponse = response.body().toString();
-
                         questionModels = jsonToModel(jsonResponse);
-
                         displayQuestion(0);
-
                     } else {
-                        Log.i("TEST", "Returned empty response");
                     }
                 }
             }
@@ -90,6 +86,9 @@ public class QuestionActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Method to display the question
+     */
     private void displayQuestion(int qIndex) {
         ImageView imageView = findViewById(R.id.imageView);
         Picasso.get()
@@ -110,6 +109,9 @@ public class QuestionActivity extends AppCompatActivity {
         ans4.setText(questionModels.get(qIndex).getAns4());
     }
 
+    /**
+     * Method to convert json data to questionModel
+     */
     private ArrayList<QuestionModel> jsonToModel(String jsonresponse) {
         ArrayList<QuestionModel> questionModels = new ArrayList<>();
         try {
@@ -136,16 +138,11 @@ public class QuestionActivity extends AppCompatActivity {
         return questionModels;
     }
 
+    /**
+     * Method to handle answer-click-event
+     */
     public void ansClick(View view) {
-
-
-        //test code start
-//        int randChoise = new Random().nextInt(4)+1;
-
         int correctAns = questionModels.get(round-1).getCorrectAns();
-
-        //TODO: Get the correct choice
-
         int input = Integer.parseInt(view.getTag().toString());
         if (input == correctAns) {
             score++;
@@ -155,8 +152,6 @@ public class QuestionActivity extends AppCompatActivity {
         round++;
 
         if(round>10){
-            //TODO: Display a result message
-
             DBHelper dbHelper = new DBHelper(this);
             String username = dbHelper.readUsername();
             dbHelper.saveScore(username,Integer.toString(score));
@@ -169,7 +164,6 @@ public class QuestionActivity extends AppCompatActivity {
             dlgAlert.setTitle("Quiz Result");
             dlgAlert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    //dismiss the dialog
                     finish();
                 }
             });
@@ -181,14 +175,7 @@ public class QuestionActivity extends AppCompatActivity {
 
             TextView txtViewRound = (TextView) findViewById(R.id.txtRound);
             txtViewRound.setText(Integer.toString(round));
-
-            //TODO: Update image and 4 choices
             displayQuestion(round-1);
         }
-
-
-        //test code end
-
-        Log.i("TEST", "clicked on - " + view.getTag());
     }
 }

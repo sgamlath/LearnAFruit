@@ -3,9 +3,8 @@
 package com.example.learnafruit;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ListView;
 
@@ -29,15 +28,19 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class LearnActivity extends AppCompatActivity {
     public ArrayList<FruitModel> fruitModels;
 
+    /**
+     * Overridden method to customize list view item loading data
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learn);
-
         getData();
-
     }
 
+    /**
+     * Method to get fruit data from the server
+     */
     private void getData() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(ApiInterface.JSONURL)
@@ -49,21 +52,14 @@ public class LearnActivity extends AppCompatActivity {
         Call<String> call = api.getFruitList();
 
         call.enqueue(new Callback<String>() {
+
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                Log.i("TEST", response.body().toString());
-
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-                        Log.i("TEST", response.body().toString());
                         String jsonResponse = response.body().toString();
-
                         fruitModels = jsonToModel(jsonResponse);
-
                         modelToListView(fruitModels);
-
-                    } else {
-                        Log.i("TEST", "Returned empty response");
                     }
                 }
             }
@@ -75,6 +71,9 @@ public class LearnActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Method to populate list view with fruits
+     */
     private void modelToListView(ArrayList<FruitModel> modelList) {
         CustomAdaptor customAdaptor = new CustomAdaptor(this, modelList);
 
@@ -82,6 +81,9 @@ public class LearnActivity extends AppCompatActivity {
         fruitListView.setAdapter(customAdaptor);
     }
 
+    /**
+     * Method to convert json data to fruitModel
+     */
     private ArrayList<FruitModel> jsonToModel(String jsonresponse) {
         ArrayList<FruitModel> fruitModels = new ArrayList<>();
         try {
@@ -106,11 +108,12 @@ public class LearnActivity extends AppCompatActivity {
         return fruitModels;
     }
 
-
+    /**
+     * Method to navigate to Fruit Activity
+     */
     public void loadFruit(View view) {
         Intent fruitIntent = new Intent(this, FruitActivity.class);
         fruitIntent.putExtra("fruit", fruitModels.get(Integer.parseInt(view.getTag().toString())-1));
-        Log.i("TEST", "Hi bae: " + view.getTag());
         startActivity(fruitIntent);
     }
 

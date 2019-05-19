@@ -1,8 +1,8 @@
 package com.example.learnafruit;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 /**
@@ -23,11 +23,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Method to navigate to Learn Activity
+     */
     public void loadLearn(View view) {
         Intent learnIntent = new Intent(this, LearnActivity.class);
         startActivity(learnIntent);
     }
 
+    /**
+     * Method to navigate to Quiz Activity
+     */
     public void loadQuiz(View view) {
         Intent quizIntent = new Intent(this, QuizActivity.class);
         startActivity(quizIntent);

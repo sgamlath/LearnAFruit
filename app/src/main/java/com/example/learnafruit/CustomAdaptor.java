@@ -2,8 +2,6 @@ package com.example.learnafruit;
 
 import android.content.Context;
 import android.database.DataSetObserver;
-import android.text.Layout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +13,11 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+/**
+ * CustomAdaptor
+ *
+ * The CustomAdaptor implements the ListAdapter to provide a customized list view for listing fruits
+ */
 class CustomAdaptor implements ListAdapter {
     ArrayList<FruitModel> arrayList;
     Context context;
@@ -64,38 +67,17 @@ class CustomAdaptor implements ListAdapter {
         return false;
     }
 
+    /**
+     * Overridden method to customize list view item loading data
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         FruitModel fruitModel = arrayList.get(position);
         if (convertView == null) {
             LayoutInflater layoutInflater = LayoutInflater.from(context);
             convertView = layoutInflater.inflate(R.layout.fruit_item, null);
-//            convertView.setTag(fruitModel.getId());
-//            convertView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    //TODO: if this is the correct place, override appropriately
-//                    Log.i("TEST", "Boom baby boom : " +v.getTag());
-//                    v.getTag();
-//                }
-//            });
-//            TextView name = convertView.findViewById(R.id.name);
-//            ImageView imgView = convertView.findViewById(R.id.img);
-//            name.setText(fruitModel.getName());
-//            Picasso.get()
-//                    .load("https://damp-sea-11322.herokuapp.com"+fruitModel.getImg_path())
-//                    .fit()
-//                    .into(imgView);
         }
         convertView.setTag(fruitModel.getId());
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO: if this is the correct place, override appropriately
-                Log.i("TEST", "Boom baby boom : " +v.getTag());
-                v.getTag();
-            }
-        });
         View oneFruitItem = convertView.findViewById(R.id.oneFruitItem);
         oneFruitItem.setTag(fruitModel.getId());
         TextView name = convertView.findViewById(R.id.name);
