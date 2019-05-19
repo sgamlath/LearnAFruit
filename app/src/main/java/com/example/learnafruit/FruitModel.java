@@ -2,8 +2,14 @@ package com.example.learnafruit;
 
 import java.io.Serializable;
 
+/**
+ * QuestionModel
+ *
+ * The model class for question model implements serializable interface to make this model serializable
+ */
 public class FruitModel implements Serializable {
     private int id;
+
     private String name , img_path, description;
 
     public int getId() {

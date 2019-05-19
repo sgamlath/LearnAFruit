@@ -2,6 +2,11 @@ package com.example.learnafruit;
 
 import java.io.Serializable;
 
+/**
+ * QuestionModel
+ *
+ * The model class for question model
+ */
 public class QuestionModel implements Serializable {
     private int correctAns;
     private String ans1, ans2, ans3, ans4, img;

@@ -3,7 +3,6 @@ package com.example.learnafruit;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -30,7 +29,6 @@ public class QuizActivity extends AppCompatActivity {
 
         EditText txtName = (EditText) findViewById(R.id.txtName);
         String username = txtName.getText().toString();
-        Log.i("TEST", "Stoped - " + username);
 
         DBHelper dbHelper = new DBHelper(this);
         dbHelper.changeUsername(username);

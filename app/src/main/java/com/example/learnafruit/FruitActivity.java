@@ -1,7 +1,7 @@
 package com.example.learnafruit;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,6 +15,9 @@ import com.squareup.picasso.Picasso;
 public class FruitActivity extends AppCompatActivity {
     private FruitModel fruit;
 
+    /**
+     * Overridden method to initialize Fruit activity with data
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
