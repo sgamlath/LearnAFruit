@@ -92,7 +92,7 @@ public class QuestionActivity extends AppCompatActivity {
     private void displayQuestion(int qIndex) {
         ImageView imageView = findViewById(R.id.imageView);
         Picasso.get()
-                .load("https://damp-sea-11322.herokuapp.com"+questionModels.get(qIndex).getImg())
+                .load("https://nameless-bastion-94748.herokuapp.com"+questionModels.get(qIndex).getImg())
                 .placeholder(R.drawable.loading)
                 .error(R.drawable.broken)
                 .fit()

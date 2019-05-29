@@ -33,7 +33,7 @@ public class FruitActivity extends AppCompatActivity {
 
         ImageView imageView = findViewById(R.id.image_fruit);
         Picasso.get()
-                .load("https://damp-sea-11322.herokuapp.com"+fruit.getImg_path())
+                .load("https://nameless-bastion-94748.herokuapp.com"+fruit.getImg_path())
                 .placeholder(R.drawable.loading)
                 .error(R.drawable.broken)
                 .fit()

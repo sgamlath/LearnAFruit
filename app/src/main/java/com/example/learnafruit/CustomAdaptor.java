@@ -84,7 +84,7 @@ class CustomAdaptor implements ListAdapter {
         ImageView imgView = convertView.findViewById(R.id.img);
         name.setText(fruitModel.getName());
         Picasso.get()
-                .load("https://damp-sea-11322.herokuapp.com"+fruitModel.getImg_path())
+                .load("https://nameless-bastion-94748.herokuapp.com"+fruitModel.getImg_path())
                 .placeholder(R.drawable.loading)
                 .error(R.drawable.broken)
                 .fit()

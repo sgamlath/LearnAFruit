@@ -12,7 +12,7 @@ import retrofit2.http.GET;
  */
 public interface ApiInterface {
 
-    String JSONURL = "https://damp-sea-11322.herokuapp.com/question/";
+    String JSONURL = "https://nameless-bastion-94748.herokuapp.com/question/";
 
     /**
      * getFruitList method to get fruit list from the server
