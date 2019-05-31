@@ -1,6 +1,7 @@
 package com.example.learnafruit;
 
 import android.content.DialogInterface;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +31,8 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
  * The activity displaying each question
  */
 public class QuestionActivity extends AppCompatActivity {
+
+    private MediaPlayer player;
 
     public ArrayList<QuestionModel> questionModels;
     int round = 1;
@@ -169,6 +172,15 @@ public class QuestionActivity extends AppCompatActivity {
             });
             dlgAlert.setCancelable(false);
             dlgAlert.create().show();
+
+            int toneRes = R.raw.applause;
+            if (player != null && player.isPlaying()) {
+                player.stop();
+            }
+            player = MediaPlayer.create(QuestionActivity.this, toneRes);
+            player.setLooping(false);
+
+            player.start();
 
 
         }else {
